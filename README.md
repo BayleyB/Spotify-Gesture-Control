@@ -15,9 +15,6 @@ The following is a list of files in the project folder and a description of them
 - gesture_recognition.py: This file contains all of the logic for recognizing the users gestures as well as making calls to the funtions in the spotify_functions.py file.
 - spotify_functions.py: This is the file that directly interacts with the Spotify Web API by using functions built in to the Spotipy Python library.
 
-### Extra Files:
-- README.md: Contains program description, file description, setup, usage, and information referenced in the creation of this program.
-
 ## Setup:
 - Install spotipy, mediapipe, and cv2 packages.
 - Create a Spotify developer account and create a new application on your developer dashboard.
@@ -27,19 +24,19 @@ The following is a list of files in the project folder and a description of them
 
 ## Preforming Gesture Controls:
 ### Play/Pause
-![Imgur](https://i.imgur.com/tBqLWlq.png)
+![Imgur](https://i.imgur.com/SsmH6Oy.png)
 The user can play/pause music playback by holding up their index and middle finger at the same time. The program will determine the correct action to perform based on the current playback status. This action is also protected from repeated inputs if the gesture is held, so if the user would like to perform the action again they must put their hand back to a neutral postion and perform the gesture again.
 
 ### Next Song
-![Imgur](https://i.imgur.com/mOtG1Vu.png)
+![Imgur](https://i.imgur.com/WNX02ef.png)
 The user can skip to the next song in the queue by holding up their index finger and pinky at the same time. This action also is protected from repeated inputs.
 
 ### Previous Song
-![Imgur](https://i.imgur.com/YsVIbQD.png)
+![Imgur](https://i.imgur.com/K0nZOnP.png)
 The user can go back to the previous song by holding up just their pinky. Just as the previous two actions this one is also protected from repeated inputs.
 
 ### Volume Control
-![Imgur](https://i.imgur.com/EM6OA5Z.png)
+![Imgur](https://i.imgur.com/bLPlwZn.png)
 The user can enter playback volume control mode by holding up their index and thumb only. Then the program calculates the distance between the users thumb and index finger, setting that to the maximum volume value possible. I would have liked to initialize that distance to the current playback volume but unfortunatly the Spotify API does not allow you grab the current playback volume percentage. By moving their index/thumb closer and further apart, the user can then adjust the playback volume of the music.
 
 ## References:

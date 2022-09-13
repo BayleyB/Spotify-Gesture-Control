@@ -5,6 +5,7 @@ import math
 import time
 
 font = cv2.FONT_HERSHEY_COMPLEX
+ui_color = (0, 255, 0)
 
 def start_capture():
     mp_hand_drawing = mp.solutions.drawing_utils #Helps with drawing hand landmarks
@@ -78,7 +79,7 @@ def start_capture():
                     #Results in true if the user is giving the play pause gesture
                     play_pause_gesture = finger_up[hand_lr.upper() + '_INDEX'] and finger_up[hand_lr.upper() + '_MIDDLE'] and finger_count[hand_lr.upper()] == 2
 
-                    next_song_gestrue = finger_up[hand_lr.upper() + '_INDEX'] and finger_up[hand_lr.upper() + '_PINKY'] and finger_count[hand_lr.upper()] == 2
+                    next_song_gesture = finger_up[hand_lr.upper() + '_INDEX'] and finger_up[hand_lr.upper() + '_PINKY'] and finger_count[hand_lr.upper()] == 2
                     previous_song_gesture = finger_up[hand_lr.upper() + '_PINKY'] and finger_count[hand_lr.upper()] == 1
 
                     if (volume_control_enabled):
@@ -94,10 +95,10 @@ def start_capture():
                         sf.adjust_volume(vol_percent)
                         
                         #Volume control UI
-                        cv2.putText(image, "Max: " + str(max_distance), (25, 25), font, 1, (0, 0, 255), 2)
-                        cv2.putText(image, "Current: " + str(thumb_index_distance), (25, 75), font, 1, (0, 0, 255), 2)
-                        cv2.putText(image, "Percent: " + str(vol_percent) + "%", (25, 125), font, 1, (0, 0, 255), 2)
-                        cv2.line(image, (int(thumb_tip_x), int(thumb_tip_y)), (int(index_tip_x), int(index_tip_y)), (0, 0, 255), 3)
+                        cv2.putText(image, "Volume: " + str(vol_percent) + "%", (25, 25), font, 1, ui_color, 2)
+                        cv2.rectangle(image, (25, 200), (75, 50), (0, 0, 0), cv2.FILLED)
+                        cv2.rectangle(image, (25, 200), (75, 200 - int(vol_percent*1.5)), ui_color, cv2.FILLED)
+                        cv2.rectangle(image, (25, 200), (75, 50), (255, 255, 255), 3)
                     else:
                         max_distance = -1
                     
@@ -105,26 +106,32 @@ def start_capture():
                     if(play_pause_gesture and (not play_pause_active)):
                         play_pause_active = True
                         sf.play_pause()
-                        time.sleep(1)
+                        cv2.putText(image, "Play/Pause", (25, 25), font, 1, ui_color, 2)
                     elif((not play_pause_gesture) and play_pause_active):
                         play_pause_active = False
+                    elif(play_pause_gesture and play_pause_active):
+                        cv2.putText(image, "Play/Pause", (25, 25), font, 1, ui_color, 2)
 
                     #If the next/prev gesture is active it will not preform the action to avoid repeated next/prev function calls
-                    if(next_song_gestrue and (not next_prev_active)):
+                    if(next_song_gesture and (not next_prev_active)):
                         next_prev_active = True
                         sf.next_song()
-                        time.sleep(1)
+                        cv2.putText(image, "Next Song >>>", (25, 25), font, 1, ui_color, 2)
                     elif(previous_song_gesture and (not next_prev_active)):
                         next_prev_active = True
                         sf.prev_song()
-                        time.sleep(1)
-                    elif((not next_song_gestrue) and (not previous_song_gesture) and next_prev_active):
+                        cv2.putText(image, "<<< Prev Song", (25, 25), font, 1, ui_color, 2)
+                    elif((not next_song_gesture) and (not previous_song_gesture) and next_prev_active):
                         next_prev_active = False
+                    elif(next_song_gesture and next_prev_active):
+                        cv2.putText(image, "Next Song >>>", (25, 25), font, 1, ui_color, 2)
+                    elif(previous_song_gesture and next_prev_active):
+                        cv2.putText(image, "<<< Prev Song", (25, 25), font, 1, ui_color, 2)
 
                     #Draw hand landmarks onto processed frame
-                    mp_hand_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS, mp_hand_drawing.DrawingSpec(color=(255, 0, 0), thickness=2, circle_radius=2))            
+                    #mp_hand_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS, mp_hand_drawing.DrawingSpec(color=(255, 0, 0), thickness=2, circle_radius=2))            
 
-            cv2.imshow('Spotify View', image)
+            cv2.imshow('Spotify Gesture Control', image)
 
             #Pressing q will break from the loop and close out the window
             if cv2.waitKey(10) & 0xFF == ord('q'):
