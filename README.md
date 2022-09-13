@@ -19,7 +19,7 @@ The following is a list of files in the project folder and a description of them
 - README.md: Contains program description, file description, setup, usage, and information referenced in the creation of this program.
 
 ## Setup:
-- Install mediapipe and cv2 packages.
+- Install spotipy, mediapipe, and cv2 packages.
 - Create a Spotify developer account and create a new application on your developer dashboard.
 - Paste the Client ID and Client Secret of your newly created application into the spotify_functions.py file.
 - Run main.py to start the program.
