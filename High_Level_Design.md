@@ -1,112 +1,127 @@
-# Module Overview
+Module Name: spotify_functions.py
 
-## Module Name: spotify_functions.py
+**Primary Objectives:**
+The module provides functions to interact with the Spotify API for music playback control. It allows adjusting volume, play/pause music, skip songs, and retrieve the connected user's Spotify username.
 
-### Primary Objectives:
-This module provides functions for interacting with the Spotify API. It allows users to retrieve their username, adjust volume, control playback (play/pause, skip to next song, go back to previous song), and perform other related operations.
-
-### Critical Functions:
+**Critical Functions:**
 1. `get_user()`: Retrieves the connected user's Spotify username.
-2. `adjust_volume(vol_percent)`: Adjusts the volume to a given percentage value (0-100).
-3. `play_pause()`: Determines the playback status and either plays or pauses the music accordingly.
+2. `adjust_volume(vol_percent)`: Adjusts the volume of music playback to a given percentage.
+3. `play_pause()`: Starts or pauses the music playback based on the current status.
 4. `next_song()`: Skips to the next song in the queue.
-5. `prev_song()`: Goes back to the previous song.
+5. `prev_song()`: Goes back to the previous song in the queue.
 
-### Key Variables:
-- `SPOTIPY_CLIENT_ID`: Spotify API client ID.
-- `SPOTIPY_CLIENT_SECRET`: Spotify API client secret.
-- `SPOTIPY_REDIRECT_URI`: Redirect URI for Spotify authorization.
-- `scope`: Defines the required permissions for the Spotify API.
+**Key Variables:**
+1. `SPOTIPY_CLIENT_ID`: Spotify API client ID.
+2. `SPOTIPY_CLIENT_SECRET`: Spotify API client secret.
+3. `SPOTIPY_REDIRECT_URI`: Redirect URI for the Spotify API.
+4. `scope`: Scope of Spotify API access.
+5. `p`: Spotipy object for interacting with the Spotify API.
 
-### Interdependencies:
-This module relies on the Spotify library and the Spotify API for its functionality.
+**Interdependencies:**
+This module depends on the Spotipy library and the Spotify API for proper functionality.
 
-### Core vs. Auxiliary Operations:
-The core operations of this module include retrieving the user's username, controlling playback, and adjusting volume. Other operations, such as skipping to the next or previous song, can be considered auxiliary.
+**Core vs. Auxiliary Operations:**
+Core operations include adjusting volume, play/pause, skipping songs, and retrieving the user's username. The creation of the Spotipy object is an auxiliary operation.
 
-### Operational Sequence:
-The module starts by importing necessary libraries and defining the required variables. Then, it creates a Spotify object for API interaction. The functions can be called in any order based on user requirements.
+**Operational Sequence:**
+1. Create the Spotipy object.
+2. Retrieve the connected user's Spotify username.
+3. Adjust the volume of music playback.
+4. Start or pause the music playback.
+5. Skip to the next song.
+6. Go back to the previous song.
 
-### Performance Aspects:
-The performance of this module depends on the network speed and the response time of the Spotify API. It is important to ensure a stable internet connection for optimal performance.
+**Performance Aspects:**
+The module's performance relies on the Spotipy library and the Spotify API. The functions are simple and shouldn't significantly impact performance.
 
-### Reusability:
-This module can be easily reused in different projects or applications that require integration with the Spotify API. The functions can be called independently or combined with other functionalities as needed.
+**Reusability:**
+This module is designed to be reusable and adaptable for projects requiring Spotify API integration for music playback control.
 
-## Module Name: gesture_recognition.py
+Module Name: gesture_recognition.py
 
-### Primary Objectives:
-The purpose of this module is to perform gesture recognition using the Mediapipe library and control Spotify functions based on the detected gestures.
+**Primary Objectives:**
+The module recognizes hand gestures and uses them to control Spotify music playback.
 
-### Critical Functions:
-- `start_capture()`: This function is responsible for capturing frames from the webcam, detecting hand landmarks, and performing gesture recognition. It also controls the volume, play/pause, and next/previous song actions in Spotify.
+**Critical Functions:**
+The main function of the module is `start_capture()`, which captures webcam frames, detects hand landmarks, recognizes gestures, and controls Spotify playback.
 
-### Key Variables:
-- `font`: Stores the font type for displaying text on the frame.
-- `ui_color`: Stores the color for displaying UI elements on the frame.
-- `mp_hand_drawing`: A module from the Mediapipe library that helps with drawing hand landmarks.
-- `mp_hands`: A module from the Mediapipe library for hand tracking.
-- `mediaCap`: Represents the video capture feed from the webcam.
-- `max_distance`: Stores the maximum distance between thumb and index finger tips for volume control.
-- `play_pause_active`: Indicates whether the play/pause action is currently active.
-- `next_prev_active`: Indicates whether the next/previous song action is currently active.
+**Key Variables:**
+- `mp_hand_drawing`: Variable for drawing hand landmarks.
+- `mp_hands`: Variable for hand tracking.
+- `mediaCap`: Variable for webcam capture feed.
+- `max_distance`: Variable for volume control.
+- `play_pause_active`: Boolean variable to avoid repeated play/pause actions.
+- `next_prev_active`: Boolean variable to avoid repeated next/prev song actions.
+- `finger_tip_ids`: List of finger tip landmarks (excluding thumb).
+- `finger_count`: Dictionary tracking the number of fingers up on each hand.
+- `finger_up`: Dictionary detecting finger status (up or down) in captured frames.
+- `ui_color`: Variable defining UI element color.
+- `font`: Variable defining UI element font.
 
-### Interdependencies:
-This module depends on the following components:
-- `mediapipe`: Used for hand tracking and drawing hand landmarks.
-- `spotify_functions`: Used for controlling Spotify functions such as volume, play/pause, and next/previous song.
+**Interdependencies:**
+The module relies on the mediapipe library for hand landmark detection and the spotify_functions module for Spotify playback control.
 
-### Core vs. Auxiliary Operations:
-- Core operations: Hand tracking, gesture recognition, and controlling Spotify functions.
-- Auxiliary operations: Drawing UI elements on the frame and capturing frames from the webcam.
+**Core vs. Auxiliary Operations:**
+The core operation is gesture recognition and Spotify playback control, while there are no auxiliary operations.
 
-### Operational Sequence:
-1. Capture a frame from the webcam.
-2. Process the frame by performing hand detection and landmark tracking using Mediapipe.
-3. Determine the finger positions and gestures based on the detected landmarks.
-4. Control Spotify functions such as volume, play/pause, and next/previous song based on the recognized gestures.
-5. Draw the hand landmarks and UI elements on the frame.
-6. Display the processed frame.
-7. Repeat steps 1-6 until the user exits the program.
+**Operational Sequence:**
+The `start_capture()` function captures webcam frames, processes them for hand detection, recognizes gestures, and controls Spotify playback.
 
-### Performance Aspects:
-- The module uses real-time video processing, which may require sufficient computational resources.
-- The performance depends on the speed and accuracy of hand detection and landmark tracking provided by the Mediapipe library.
-- The module may experience latency or inaccuracies in gesture recognition depending on the webcam's frame rate and lighting conditions.
+**Performance Aspects:**
+Module performance depends on computer speed, webcam quality, and a stable internet connection for Spotify playback control.
 
-### Reusability:
-- The module can be reused for other applications that require gesture recognition and control of Spotify functions.
-- It may require modifications to adapt to different gesture sets or control different applications.
-- The module can be integrated into larger systems or projects that involve real-time gesture-based interaction.
+**Reusability:**
+The module can be adapted for reuse by modifying gestures or using hand landmarks for other purposes.
 
-## Module Name: main.py
+Module Name: main.py
 
-### Primary Objectives:
-The main objective of this module is to facilitate gesture control for a user and interact with Spotify functions.
+**Primary Objectives:**
+The module enables gesture control for a Spotify account by utilizing the functions from gesture_recognition and spotify_functions modules.
 
-### Critical Functions:
-- `get_user()`: This function is imported from the `spotify_functions` module and is responsible for retrieving the username to trigger account authentication.
-- `start_capture()`: This function is imported from the `gesture_recognition` module and is responsible for initiating the capturing of gestures.
+**Critical Functions:**
+- `get_user()`: Prompts the user to enter their Spotify account username.
+- `start_capture()`: Captures user gestures using the webcam until the program is stopped.
 
-### Key Variables:
-- `username`: This variable stores the username obtained from the `get_user()` function.
+**Key Variables:**
+- `username`: Stores the user's Spotify account username obtained from `get_user()`.
 
-### Interdependencies:
-This module depends on the `gesture_recognition` and `spotify_functions` modules to access the necessary functions.
+**Interdependencies:**
+The module depends on the gesture_recognition and spotify_functions modules for their functions.
 
-### Core vs. Auxiliary Operations:
-The core operations of this module include retrieving the username and starting gesture capture. Auxiliary operations may include any additional functions or tasks related to the main objectives.
+**Core vs. Auxiliary Operations:**
+The core operation is enabling gesture control for a Spotify account, while prompting the user and capturing gestures are auxiliary operations.
 
-### Operational Sequence:
-The operational sequence of this module involves first obtaining the username using `get_user()`, then printing the username, and finally starting the gesture capturing process using `start_capture()`.
+**Operational Sequence:**
+The module imports required modules, prompts the user to enter their Spotify account username, and starts capturing gestures using `start_capture()`.
 
-### Performance Aspects:
-The performance aspects of this module depend on the efficiency of the imported functions from the `gesture_recognition` and `spotify_functions` modules. Any performance considerations related to gesture recognition or Spotify interaction should be taken into account.
+**Performance Aspects:**
+Module performance relies on webcam quality, computer processing power, and the speed and accuracy of gesture recognition.
 
-### Reusability:
-This module can be reusable and adaptable for different users by modifying the `get_user()` function to retrieve different usernames. Additionally, the module can be reused in other projects requiring gesture control and integration with Spotify by importing the necessary functions and modifying the operational sequence as needed.
+**Reusability:**
+The module can be reused for any Spotify account by prompting the user to enter their account username. Gesture_recognition and spotify_functions modules may require modification if gestures or Spotify API changes.
 
----
+Module Overview:
+
+1. spotify_functions.py:
+   - **Primary Responsibilities:** Provides functions to interact with the Spotify API for music playback control.
+   - **Interaction Points:** Spotify API, Spotipy library.
+   - **Architectural Layer:** Application Layer.
+   - **Role:** Handles Spotify API integration and provides essential functions for music playback control.
+
+2. gesture_recognition.py:
+   - **Primary Responsibilities:** Recognizes hand gestures and uses them to control Spotify music playback.
+   - **Interaction Points:** Mediapipe library (hand detection), spotify_functions module.
+   - **Architectural Layer:** Presentation Layer.
+   - **Role:** Handles gesture recognition using hand landmarks and facilitates Spotify playback control.
+
+3. main.py:
+   - **Primary Responsibilities:** Enables gesture control for a Spotify account by utilizing functions from gesture_recognition and spotify_functions modules.
+   - **Interaction Points:** gesture_recognition module, spotify_functions module.
+   - **Architectural Layer:** Presentation Layer.
+   - **Role:** Orchestrates the process of enabling gesture control, including capturing user gestures and authenticating the Spotify account.
+
+Note: The architectural layer assignment is based on the provided information and may vary depending on the overall system architecture.
+
 
 ## Flow Map (Py)
 
